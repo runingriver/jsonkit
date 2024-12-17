@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/jsonkit/jkerr"
+	"github.com/runingriver/jsonkit/jkerr"
 )
 
 type KeyType int

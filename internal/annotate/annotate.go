@@ -4,8 +4,8 @@ import (
 	"context"
 	"sync"
 
-	"github.com/jsonkit/conf"
-	"github.com/jsonkit/jklog"
+	"github.com/runingriver/jsonkit/conf"
+	"github.com/runingriver/jsonkit/jklog"
 )
 
 var (

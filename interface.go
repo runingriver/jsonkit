@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/jsonkit/conf"
-	"github.com/jsonkit/internal/annotate"
-	"github.com/jsonkit/internal/cutter"
-	"github.com/jsonkit/pkg/tool"
+	"github.com/runingriver/jsonkit/conf"
+	"github.com/runingriver/jsonkit/internal/annotate"
+	"github.com/runingriver/jsonkit/internal/cutter"
+	"github.com/runingriver/jsonkit/pkg/tool"
 )
 
 type JsonProcessOpt struct {

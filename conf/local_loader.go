@@ -3,7 +3,7 @@ package conf
 import (
 	"errors"
 
-	"github.com/jsonkit/pkg/tool"
+	"github.com/runingriver/jsonkit/pkg/tool"
 
 	"github.com/bytedance/sonic"
 	"gopkg.in/yaml.v3"

@@ -3,8 +3,8 @@ package annotate
 import (
 	"fmt"
 
-	"github.com/jsonkit/conf"
-	"github.com/jsonkit/pkg/tool"
+	"github.com/runingriver/jsonkit/conf"
+	"github.com/runingriver/jsonkit/pkg/tool"
 
 	"github.com/runingriver/mapinterface/pkg"
 	"github.com/shopspring/decimal"
