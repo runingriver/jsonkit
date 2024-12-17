@@ -1,4 +1,4 @@
-module github.com/jsonkit
+module github.com/runingriver/jsonkit
 
 go 1.18
 

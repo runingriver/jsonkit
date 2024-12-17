@@ -3,11 +3,11 @@ package annotate
 import (
 	"context"
 
-	"github.com/jsonkit/conf"
-	"github.com/jsonkit/internal/pathconv"
-	"github.com/jsonkit/jkerr"
-	"github.com/jsonkit/jklog"
-	"github.com/jsonkit/pkg/tool"
+	"github.com/runingriver/jsonkit/conf"
+	"github.com/runingriver/jsonkit/internal/pathconv"
+	"github.com/runingriver/jsonkit/jkerr"
+	"github.com/runingriver/jsonkit/jklog"
+	"github.com/runingriver/jsonkit/pkg/tool"
 
 	"github.com/runingriver/mapinterface/mapitf"
 )

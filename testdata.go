@@ -1,6 +1,6 @@
 package jsonkit
 
-import "github.com/jsonkit/conf"
+import "github.com/runingriver/jsonkit/conf"
 
 var (
 	unmarshalAllConfig = conf.AnnotateConfig{
