@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/runingriver/jsonkit/conf"
+	"github.com/runingriver/jsonkit/jconf"
 	"github.com/runingriver/jsonkit/jklog"
 )
 
@@ -26,7 +26,7 @@ func GetJsonAnnotate() *JsonAnnotateImpl {
 type JsonAnnotateImpl struct {
 }
 
-func (j *JsonAnnotateImpl) JsonAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg *conf.AnnotateConfig) (map[string]interface{}, error) {
+func (j *JsonAnnotateImpl) JsonAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg *jconf.AnnotateConfig) (map[string]interface{}, error) {
 	if len(jsonMap) == 0 || cfg == nil {
 		return jsonMap, nil
 	}
@@ -34,7 +34,7 @@ func (j *JsonAnnotateImpl) JsonAnnotate(ctx context.Context, jsonMap map[string]
 	// 层层递归,把json str反序列化为map
 	doUnmarshalMap, err := j.DoForUnmarshalStr(ctx, jsonMap, cfg.JsonStr)
 	if err != nil {
-		if !conf.SkipPartErr(ctx) {
+		if !jconf.SkipPartErr(ctx) {
 			return jsonMap, err
 		}
 		jklog.CtxWarn(ctx, "JsonAnnotate.DoForUnmarshalStr err:%v", err)
@@ -42,7 +42,7 @@ func (j *JsonAnnotateImpl) JsonAnnotate(ctx context.Context, jsonMap map[string]
 
 	doNormalMap, err := j.DoForNormalAnnotate(ctx, doUnmarshalMap, cfg.NormalAnnotate)
 	if err != nil {
-		if !conf.SkipPartErr(ctx) {
+		if !jconf.SkipPartErr(ctx) {
 			return jsonMap, err
 		}
 		jklog.CtxWarn(ctx, "JsonAnnotate.DoForNormalAnnotate err:%v", err)
@@ -50,7 +50,7 @@ func (j *JsonAnnotateImpl) JsonAnnotate(ctx context.Context, jsonMap map[string]
 
 	doEnumMap, err := j.DoForEnumAnnotate(ctx, doNormalMap, cfg.EnumAnnotate)
 	if err != nil {
-		if !conf.SkipPartErr(ctx) {
+		if !jconf.SkipPartErr(ctx) {
 			return jsonMap, err
 		}
 		jklog.CtxWarn(ctx, "JsonAnnotate.DoForEnumAnnotate err:%v", err)
@@ -58,7 +58,7 @@ func (j *JsonAnnotateImpl) JsonAnnotate(ctx context.Context, jsonMap map[string]
 
 	doArrayMap, err := j.DoForArrayAnnotate(ctx, doEnumMap, cfg.ArrayAnnotate)
 	if err != nil {
-		if !conf.SkipPartErr(ctx) {
+		if !jconf.SkipPartErr(ctx) {
 			return jsonMap, err
 		}
 		jklog.CtxWarn(ctx, "JsonAnnotate.DoForArrayAnnotate err:%v", err)
@@ -67,18 +67,18 @@ func (j *JsonAnnotateImpl) JsonAnnotate(ctx context.Context, jsonMap map[string]
 	return doArrayMap, nil
 }
 
-func (j *JsonAnnotateImpl) DoForUnmarshalStr(ctx context.Context, jsonMap map[string]interface{}, cfg *conf.JsonStrAction) (map[string]interface{}, error) {
+func (j *JsonAnnotateImpl) DoForUnmarshalStr(ctx context.Context, jsonMap map[string]interface{}, cfg *jconf.JsonStrAction) (map[string]interface{}, error) {
 	return UnmarshalStrIns.UnmarshalStr(ctx, jsonMap, cfg)
 }
 
-func (j *JsonAnnotateImpl) DoForNormalAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*conf.AnnotateFmt) (map[string]interface{}, error) {
+func (j *JsonAnnotateImpl) DoForNormalAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*jconf.AnnotateFmt) (map[string]interface{}, error) {
 	return NormalAnnotateIns.DoNormalAnnotate(ctx, jsonMap, cfg)
 }
 
-func (j *JsonAnnotateImpl) DoForEnumAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*conf.AnnotateFmt) (map[string]interface{}, error) {
+func (j *JsonAnnotateImpl) DoForEnumAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*jconf.AnnotateFmt) (map[string]interface{}, error) {
 	return EnumAnnotateIns.DoEnumAnnotate(ctx, jsonMap, cfg)
 }
 
-func (j *JsonAnnotateImpl) DoForArrayAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*conf.AnnotateFmt) (map[string]interface{}, error) {
+func (j *JsonAnnotateImpl) DoForArrayAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*jconf.AnnotateFmt) (map[string]interface{}, error) {
 	return ArrayAnnotateIns.DoArrayAnnotate(ctx, jsonMap, cfg)
 }

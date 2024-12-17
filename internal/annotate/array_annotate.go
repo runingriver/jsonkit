@@ -3,8 +3,8 @@ package annotate
 import (
 	"context"
 
-	"github.com/runingriver/jsonkit/conf"
 	"github.com/runingriver/jsonkit/internal/pathconv"
+	"github.com/runingriver/jsonkit/jconf"
 	"github.com/runingriver/jsonkit/jkerr"
 	"github.com/runingriver/jsonkit/jklog"
 
@@ -19,7 +19,7 @@ var (
 type ArrayAnnotate struct {
 }
 
-func (e *ArrayAnnotate) DoArrayAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*conf.AnnotateFmt) (map[string]interface{}, error) {
+func (e *ArrayAnnotate) DoArrayAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*jconf.AnnotateFmt) (map[string]interface{}, error) {
 	if len(jsonMap) == 0 || len(cfg) == 0 {
 		return jsonMap, nil
 	}
@@ -34,8 +34,8 @@ func (e *ArrayAnnotate) DoArrayAnnotate(ctx context.Context, jsonMap map[string]
 }
 
 // DoOnePath x.y.z z对应的val一定是个list,z不能是index.
-func (e *ArrayAnnotate) DoOnePath(ctx context.Context, jsonMap map[string]interface{}, path string, fmt *conf.AnnotateFmt) (m map[string]interface{}, err error) {
-	if err := pathconv.ValidPath(path); err != nil || !conf.AnnotateFmtValid(fmt) {
+func (e *ArrayAnnotate) DoOnePath(ctx context.Context, jsonMap map[string]interface{}, path string, fmt *jconf.AnnotateFmt) (m map[string]interface{}, err error) {
+	if err := pathconv.ValidPath(path); err != nil || !jconf.AnnotateFmtValid(fmt) {
 		return nil, err
 	}
 

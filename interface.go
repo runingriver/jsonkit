@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/runingriver/jsonkit/conf"
 	"github.com/runingriver/jsonkit/internal/annotate"
 	"github.com/runingriver/jsonkit/internal/cutter"
+	"github.com/runingriver/jsonkit/jconf"
 	"github.com/runingriver/jsonkit/pkg/tool"
 )
 
@@ -32,15 +32,15 @@ func JsonProcess(ctx context.Context, jsonMap map[string]interface{}, opts ...Js
 	if opt.Config == "" {
 		return jsonMap, errors.New("param illegal")
 	}
-	var actionCfg *conf.ActionConfig
-	actionCfg, err = conf.LocalLoader(opt.Config)
+	var actionCfg *jconf.ActionConfig
+	actionCfg, err = jconf.LocalLoader(opt.Config)
 	if err != nil {
 		return nil, err
 	}
 	if actionCfg == nil || (actionCfg.AnnotateConfig == nil && actionCfg.CutterConfig == nil) {
 		return jsonMap, nil
 	}
-	ctx = conf.CtxWithConf(ctx, actionCfg)
+	ctx = jconf.CtxWithConf(ctx, actionCfg)
 	annotateMap, err := JsonAnnotate(ctx, jsonMap, actionCfg.AnnotateConfig)
 	if err != nil {
 		return nil, err
@@ -53,12 +53,12 @@ func JsonProcess(ctx context.Context, jsonMap map[string]interface{}, opts ...Js
 }
 
 // JsonAnnotate Json注释,给JsonVal上加注释
-func JsonAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg *conf.AnnotateConfig) (map[string]interface{}, error) {
+func JsonAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg *jconf.AnnotateConfig) (map[string]interface{}, error) {
 	return annotate.GetJsonAnnotate().JsonAnnotate(ctx, jsonMap, cfg)
 }
 
 // JsonStrAnnotate Json注释,给JsonVal上加注释
-func JsonStrAnnotate(ctx context.Context, jsonStr string, cfg *conf.AnnotateConfig) (string, error) {
+func JsonStrAnnotate(ctx context.Context, jsonStr string, cfg *jconf.AnnotateConfig) (string, error) {
 	if len(jsonStr) == 0 || !json.Valid(tool.StrToByte(jsonStr)) || cfg == nil {
 		return jsonStr, nil
 	}
@@ -74,7 +74,7 @@ func JsonStrAnnotate(ctx context.Context, jsonStr string, cfg *conf.AnnotateConf
 }
 
 // JsonStrCutter 对json str进行剪裁
-func JsonStrCutter(ctx context.Context, jsonStr string, cfg *conf.CutterConfig) (string, error) {
+func JsonStrCutter(ctx context.Context, jsonStr string, cfg *jconf.CutterConfig) (string, error) {
 	if len(jsonStr) == 0 || !json.Valid(tool.StrToByte(jsonStr)) || cfg == nil {
 		return jsonStr, nil
 	}
@@ -90,10 +90,10 @@ func JsonStrCutter(ctx context.Context, jsonStr string, cfg *conf.CutterConfig) 
 }
 
 // JsonMapCutter 剪裁map
-func JsonMapCutter(ctx context.Context, jsonMap map[string]interface{}, cfg *conf.CutterConfig) (map[string]interface{}, error) {
+func JsonMapCutter(ctx context.Context, jsonMap map[string]interface{}, cfg *jconf.CutterConfig) (map[string]interface{}, error) {
 	return cutter.GetJsonCutter().CutterMap(ctx, jsonMap, cfg)
 }
 
-func GlobalConfig() *conf.GlobalConfig {
-	return conf.Conf()
+func GlobalConfig() *jconf.GlobalConfig {
+	return jconf.Conf()
 }

@@ -3,8 +3,8 @@ package annotate
 import (
 	"context"
 
-	"github.com/runingriver/jsonkit/conf"
 	"github.com/runingriver/jsonkit/internal/pathconv"
+	"github.com/runingriver/jsonkit/jconf"
 	"github.com/runingriver/jsonkit/jkerr"
 	"github.com/runingriver/jsonkit/jklog"
 	"github.com/runingriver/mapinterface/mapitf"
@@ -17,7 +17,7 @@ var (
 type UnmarshalStr struct {
 }
 
-func (u *UnmarshalStr) UnmarshalStr(ctx context.Context, jsonMap map[string]interface{}, cfg *conf.JsonStrAction) (map[string]interface{}, error) {
+func (u *UnmarshalStr) UnmarshalStr(ctx context.Context, jsonMap map[string]interface{}, cfg *jconf.JsonStrAction) (map[string]interface{}, error) {
 	if cfg.CheckAll {
 		_, err := mapitf.Fr(ctx, jsonMap).SetAllAsMap()
 		if err != nil {
@@ -49,7 +49,7 @@ func (u *UnmarshalStr) UnmarshalStr(ctx context.Context, jsonMap map[string]inte
 		}
 		_, err := pathVal.SetAllAsMap()
 		if err != nil {
-			if !conf.SkipPartErr(ctx) {
+			if !jconf.SkipPartErr(ctx) {
 				return jsonMap, err
 			}
 			jklog.CtxWarn(ctx, "UnmarshalStr.CheckByPath SetAllAsMap err:%v,path:%s", err, path)

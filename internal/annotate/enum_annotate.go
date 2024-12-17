@@ -3,8 +3,8 @@ package annotate
 import (
 	"context"
 
-	"github.com/runingriver/jsonkit/conf"
 	"github.com/runingriver/jsonkit/internal/pathconv"
+	"github.com/runingriver/jsonkit/jconf"
 	"github.com/runingriver/jsonkit/jkerr"
 	"github.com/runingriver/jsonkit/jklog"
 	"github.com/runingriver/jsonkit/pkg/tool"
@@ -19,14 +19,14 @@ var (
 type EnumAnnotate struct {
 }
 
-func (e *EnumAnnotate) DoEnumAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*conf.AnnotateFmt) (map[string]interface{}, error) {
+func (e *EnumAnnotate) DoEnumAnnotate(ctx context.Context, jsonMap map[string]interface{}, cfg map[string]*jconf.AnnotateFmt) (map[string]interface{}, error) {
 	if len(jsonMap) == 0 || len(cfg) == 0 {
 		return jsonMap, nil
 	}
 	for path, annotate := range cfg {
 		_, err := e.DoOnePath(ctx, jsonMap, path, annotate)
 		if err != nil {
-			if !conf.SkipPartErr(ctx) {
+			if !jconf.SkipPartErr(ctx) {
 				return jsonMap, err
 			}
 			jklog.CtxWarn(ctx, "DoEnumAnnotate exception,path:%s,err:%v", path, err)
@@ -35,8 +35,8 @@ func (e *EnumAnnotate) DoEnumAnnotate(ctx context.Context, jsonMap map[string]in
 	return jsonMap, nil
 }
 
-func (e *EnumAnnotate) DoOnePath(ctx context.Context, jsonMap map[string]interface{}, path string, fmt *conf.AnnotateFmt) (m map[string]interface{}, err error) {
-	if err := pathconv.ValidPath(path); err != nil || !conf.AnnotateFmtValid(fmt) {
+func (e *EnumAnnotate) DoOnePath(ctx context.Context, jsonMap map[string]interface{}, path string, fmt *jconf.AnnotateFmt) (m map[string]interface{}, err error) {
+	if err := pathconv.ValidPath(path); err != nil || !jconf.AnnotateFmtValid(fmt) {
 		return nil, err
 	}
 

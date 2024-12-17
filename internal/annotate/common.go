@@ -3,7 +3,7 @@ package annotate
 import (
 	"fmt"
 
-	"github.com/runingriver/jsonkit/conf"
+	"github.com/runingriver/jsonkit/jconf"
 	"github.com/runingriver/jsonkit/pkg/tool"
 
 	"github.com/runingriver/mapinterface/pkg"
@@ -11,7 +11,7 @@ import (
 )
 
 // NotateVal 给val加注释
-func NotateVal(val interface{}, annotate *conf.AnnotateFmt) (string, bool) {
+func NotateVal(val interface{}, annotate *jconf.AnnotateFmt) (string, bool) {
 	if annotate.Str != "" {
 		return fmt.Sprintf("%s (%s)", tool.ToStr(val), annotate.Str), true
 	}
@@ -29,7 +29,7 @@ func NotateVal(val interface{}, annotate *conf.AnnotateFmt) (string, bool) {
 	return tool.ToStr(val), false
 }
 
-func UnitToStr(val interface{}, unitCvt *conf.UnitCvt) string {
+func UnitToStr(val interface{}, unitCvt *jconf.UnitCvt) string {
 	v, err := pkg.ToInt64(val)
 	if err != nil {
 		return pkg.ToStr(val)
