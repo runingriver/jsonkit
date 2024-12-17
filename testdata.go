@@ -1,26 +1,26 @@
 package jsonkit
 
-import "github.com/runingriver/jsonkit/conf"
+import "github.com/runingriver/jsonkit/jconf"
 
 var (
-	unmarshalAllConfig = conf.AnnotateConfig{
-		JsonStr: &conf.JsonStrAction{
+	unmarshalAllConfig = jconf.AnnotateConfig{
+		JsonStr: &jconf.JsonStrAction{
 			CheckAll:    true,
 			CheckByPath: nil,
 		},
 	}
-	unmarshalPathConfig = conf.AnnotateConfig{
-		JsonStr: &conf.JsonStrAction{
+	unmarshalPathConfig = jconf.AnnotateConfig{
+		JsonStr: &jconf.JsonStrAction{
 			CheckAll:    false,
 			CheckByPath: []string{"s.info", "s.content"},
 		},
 	}
-	normalCaseConfig = conf.AnnotateConfig{
-		JsonStr: &conf.JsonStrAction{
+	normalCaseConfig = jconf.AnnotateConfig{
+		JsonStr: &jconf.JsonStrAction{
 			CheckAll:    true,
 			CheckByPath: nil,
 		},
-		NormalAnnotate: map[string]*conf.AnnotateFmt{
+		NormalAnnotate: map[string]*jconf.AnnotateFmt{
 			"a.b.c": {
 				Str: "测试注释",
 			},
@@ -28,15 +28,15 @@ var (
 				Str: "测试数组路径注释",
 			},
 		},
-		EnumAnnotate: map[string]*conf.AnnotateFmt{
-			"a.e.f": {UnitCvt: &conf.UnitCvt{
+		EnumAnnotate: map[string]*jconf.AnnotateFmt{
+			"a.e.f": {UnitCvt: &jconf.UnitCvt{
 				Unit:   "元",
 				Factor: 10,
 				Op:     "/",
 			}},
 			"a.d.2.*": {EnumMap: map[string]string{"yy": "YY", "zz": "ZZ", "nn": "NN"}},
 		},
-		ArrayAnnotate: map[string]*conf.AnnotateFmt{
+		ArrayAnnotate: map[string]*jconf.AnnotateFmt{
 			"a.d.3.h": {EnumMap: map[string]string{"1": "一", "2": "二", "3": "三"}},
 		},
 	}
@@ -81,7 +81,7 @@ var (
 )
 
 var (
-	cutConfig = conf.CutterConfig{
+	cutConfig = jconf.CutterConfig{
 		IncludeCut: []string{
 			"name", "vendor.name", "vendor.names.1",
 		},
