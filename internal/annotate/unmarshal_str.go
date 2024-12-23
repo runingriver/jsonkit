@@ -18,7 +18,7 @@ type UnmarshalStr struct {
 }
 
 func (u *UnmarshalStr) UnmarshalStr(ctx context.Context, jsonMap map[string]interface{}, cfg *jconf.JsonStrAction) (map[string]interface{}, error) {
-	if cfg.CheckAll {
+	if cfg != nil && cfg.CheckAll {
 		_, err := mapitf.Fr(ctx, jsonMap).SetAllAsMap()
 		if err != nil {
 			return jsonMap, err
@@ -26,7 +26,7 @@ func (u *UnmarshalStr) UnmarshalStr(ctx context.Context, jsonMap map[string]inte
 		return jsonMap, nil
 	}
 
-	if len(cfg.CheckByPath) == 0 {
+	if cfg == nil || len(cfg.CheckByPath) == 0 {
 		return jsonMap, nil
 	}
 
